@@ -287,7 +287,10 @@ async function crearUsuario() {
 
 
   console.log(nombre, apellidos, telefono, direccion, correo);
-
+  if(!nombre || !apellidos || !telefono || !direccion || !correo){
+    console.log("\n Rellena todos los campos del formulario");
+    return;
+  };
   try {
     const response = await fetch("http://localhost:3000/api/crearcliente", {
       method: "POST",
@@ -304,10 +307,8 @@ async function crearUsuario() {
     });
 
     const data = await response.json();
-
-    if (data.success) {
-      console.log("susuisisis");
-    }
+    console.log(data.message);
+    
   } catch (error) {
     console.error(error);
   }
@@ -489,7 +490,7 @@ async function menuAtlas() {
       case 1:
         await crearUsuario();
         break;
-        
+
       case 2:
         await borrarCliente();
         break;
