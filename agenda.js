@@ -406,6 +406,29 @@ async function filtroCorreo() {
 }
 
 
+async function filtroDireccion() {
+
+  let direccionBusqueda = await leeMenu("Busca una direccion: ");
+  console.log(direccionBusqueda);
+  ///api/filtrodireccion/:direcionBusqueda
+  try {
+     const response = await fetch(`http://localhost:3000/api/filtrodireccion/${direccionBusqueda}`, {
+        method:"GET"
+     })
+     const data = await response.json();
+     
+     console.log(data.mensaje);
+     console.log(data.datos);
+     
+   } catch (error) {
+     return {
+       success: false,
+       error: error.response?.data.error || "Error BUSCAR",
+     };
+   }
+}
+
+
 //BORRAR CLIENTE
 
 async function borrarCliente() {
@@ -451,11 +474,6 @@ async function borrarCliente() {
    }
 }
 
-
-
-
-
-
 async function menuAtlas() {
   let opcion = 0;
 
@@ -471,6 +489,7 @@ async function menuAtlas() {
       case 1:
         await crearUsuario();
         break;
+        
       case 2:
         await borrarCliente();
         break;
@@ -503,7 +522,7 @@ async function menuFiltros() {
     console.log("3. Busqueda por telefono");
     console.log("4. Busqueda por direccion");
     console.log("5. Busqueda por correo");
-    console.log("6. Salir");
+    console.log("6. Atras");
     opcion = parseInt(await leeMenu("Seleccione opción: "));
     switch (opcion) {
       case 1:
@@ -516,14 +535,13 @@ async function menuFiltros() {
         await filtroTelefono();
         break;
       case 4:
+        await filtroDireccion();
         break;
       case 5:
         await filtroCorreo();
         break;
       case 6:
-        console.log("saliendo...");
-
-        process.exit();
+        await menuAtlas();
 
       default:
         break;
