@@ -82,7 +82,7 @@ async function crearUsuarioSQL() {
   }
 }
 
-//borrar usuaio sql 
+//borrar usuaio sql
 
 async function borrarClienteSQL() {
   const response = await fetch("http://localhost:5000/api/clientesql");
@@ -130,9 +130,75 @@ async function borrarClienteSQL() {
 
 
 
+//filtro nombre sql 
 
 
+async function filtroNombreSQL() {
 
+  let filtroNombre = await leeMenu("Escribe un nombre para buscar: ");
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/filtronombresql/${filtroNombre}`, {
+         method:"GET"
+      })
+      const data = await response.json();
+      console.log(data.mensaje);
+      console.log(data.datos);
+      
+      
+   
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data.error || "Error eliminar",
+      };
+    }
+}
+
+async function filtroApellidoSQL() {
+
+  let filtroApe = await leeMenu("Escribe un apellido para buscar: ");
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/filtroapellidossql/${filtroApe}`, {
+         method:"GET"
+      })
+      const data = await response.json();
+      console.log(data.mensaje);
+      console.log(data.datos);
+      
+      
+   
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data.error || "Error eliminar",
+      };
+    }
+}
+
+// filtro telefono sql
+async function filtroTelefonoSQL() {
+
+  let filtroTele = await leeMenu("Escribe un telefono: ");
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/filtrotelefono/${filtroTele}`, {
+         method:"GET"
+      })
+      const data = await response.json();
+      console.log(data.mensaje);
+      console.log(data.datos);
+      
+      
+   
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data.error || "Error eliminar",
+      };
+    }
+}
 
 
 
@@ -425,6 +491,49 @@ async function menuFiltros() {
 
 
 
+async function menuFiltroSql() {
+  let opcion = 0;
+
+  while (opcion != 6) {
+    console.log("\n Filtros Busqueda SQL ");
+    console.log("1. Busqueda por nombre");
+    console.log("2. Busqueda por apellidos");
+    console.log("3. Busqueda por telefono");
+    console.log("4. Busqueda por direccion");
+    console.log("5. Busqueda por correo");
+    console.log("6. Salir");
+    opcion = parseInt(await leeMenu("Seleccione opción: "));
+    switch (opcion) {
+      case 1:
+        await filtroNombreSQL();
+        break;
+      case 2:
+        await filtroApellidoSQL();
+        break;
+      case 3:
+        await filtroTelefonoSQL();
+        break;
+      case 4:
+        break;
+      case 5:
+        break;
+      case 6:
+        console.log("saliendo...");
+
+        process.exit();
+
+      default:
+        break;
+    }
+  }
+}
+
+
+
+
+
+
+
 
 async function menuPrincipal() {
   let opcion = 0;
@@ -473,6 +582,7 @@ async function menuSQL() {
         await listaClientesSQL();
         break;
       case 4:
+        await menuFiltroSql();
         break;
       case 5:
         console.log("saliendo...");
