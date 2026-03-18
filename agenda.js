@@ -186,6 +186,7 @@ async function filtroTelefonoSQL() {
       const response = await fetch(`http://localhost:5000/api/filtrotelefono/${filtroTele}`, {
          method:"GET"
       })
+
       const data = await response.json();
       console.log(data.mensaje);
       console.log(data.datos);
@@ -200,8 +201,50 @@ async function filtroTelefonoSQL() {
     }
 }
 
+async function filtroDireccionSQL() {
 
+  let filtroDire = await leeMenu("Escribe una dirección: ");
 
+    try {
+      const response = await fetch(`http://localhost:5000/api/filtrodireccion/${filtroDire}`, {
+         method:"GET"
+      })
+      
+      const data = await response.json();
+      console.log(data.mensaje);
+      console.log(data.datos);
+      
+      
+   
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data.error || "Error eliminar",
+      };
+    }
+}
+
+async function filtroCorreoSQL() {
+
+  let filtroCorreo = await leeMenu("Escribe un correo: ");
+    try {
+      const response = await fetch(`http://localhost:5000/api/filtrocorreo/${filtroCorreo}`, {
+         method:"GET"
+      })
+      
+      const data = await response.json();
+      console.log(data.mensaje);
+      console.log(data.datos);
+      
+      
+   
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data.error || "Error eliminar",
+      };
+    }
+}
 
 
 
@@ -514,8 +557,10 @@ async function menuFiltroSql() {
         await filtroTelefonoSQL();
         break;
       case 4:
+        await filtroDireccionSQL();
         break;
       case 5:
+        await filtroCorreoSQL();
         break;
       case 6:
         console.log("saliendo...");
