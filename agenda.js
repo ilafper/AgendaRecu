@@ -1,6 +1,6 @@
-const { log } = require("console");
-const readline = require("readline");
 
+import readline from "node:readline";
+import chalk from "chalk";;
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -276,16 +276,22 @@ async function listaClientes() {
 }
 
 async function crearUsuario() {
-  console.log("sisis");
-
-  let nombre = await leeMenu("nombre usuario: ");
+  //console.log("sisis");
+  // si mandas espacion en el telefono salta zod
+  let nombre = await leeMenu("Nombre usuario: ");
   let apellidos = await leeMenu("Apellidos usuario: ");
   let telefono = await leeMenu("Telefono usuario:  ");
   let direccion = await leeMenu("direccion usuario: ");
   let correo = await leeMenu("Correo usuario: ");
   //http://localhost:3000/api/crearcliente
-
-
+  /*
+  let nuevoNombre= nombre.trim();
+  let nuevoapellidos= apellidos.trim();
+  let nuevoDireccion= direccion.trim();
+  let nuevadireccion= direccion.trim();
+  let nuevocorreo= correo.trim();
+  console.log();
+  */
   console.log(nombre, apellidos, telefono, direccion, correo);
   if(!nombre || !apellidos || !telefono || !direccion || !correo){
     console.log("\n Rellena todos los campos del formulario");
@@ -320,13 +326,28 @@ async function filtroNomrbe() {
   console.log(nombreBusqueda);
   
   try {
-     const response = await fetch(`http://localhost:3000/api/filtronombre/${nombreBusqueda}`, {
-        method:"GET"
+     const response = await fetch(`http://localhost:3000/api/filtronombre/${nombreBusqueda}`,{
+      method:"GET"
      })
      const data = await response.json();
      
      console.log(data.mensaje);
-     console.log(data.datos);
+     //console.log(data.datos);
+     let filtroNombreLista= data.datos;
+     //console.log("ssssssssiiiiii",filtroNombreLista);
+     for (let cada_filtro of filtroNombreLista ) {
+      console.log("---------------");
+      console.log(chalk.green(`Nombre: ${cada_filtro.nombre}`));
+      console.log(`Apellidos: ${cada_filtro.apellidos}`,);
+      console.log(`Telefono: ${cada_filtro.telefono}`,);
+      console.log(`Direccion: ${cada_filtro.direccion}`,);
+      console.log(`Correo: ${cada_filtro.correo}`,);
+      
+
+
+        
+      
+    }
      
    } catch (error) {
      return {
@@ -349,7 +370,21 @@ async function filtroApellidos() {
      const data = await response.json();
      
      console.log(data.mensaje);
-     console.log(data.datos);
+     let filtroApeLista = data.datos;
+
+     for (let cada_filtro of filtroApeLista ) {
+      console.log("---------------");
+      console.log(`Nombre: ${cada_filtro.nombre}`,);
+      console.log(`Apellidos: ${cada_filtro.apellidos}`,);
+      console.log(`Telefono: ${cada_filtro.telefono}`,);
+      console.log(`Direccion: ${cada_filtro.direccion}`,);
+      console.log(`Correo: ${cada_filtro.correo}`,);
+      
+
+
+        
+      
+    }
      
    } catch (error) {
      return {
@@ -372,7 +407,21 @@ async function filtroTelefono() {
      const data = await response.json();
      
      console.log(data.mensaje);
-     console.log(data.datos);
+     let filtoteleLista= data.datos;
+
+     for (let cada_filtro of filtoteleLista ) {
+      console.log("---------------");
+      console.log(`Nombre: ${cada_filtro.nombre}`,);
+      console.log(`Apellidos: ${cada_filtro.apellidos}`,);
+      console.log(`Telefono: ${cada_filtro.telefono}`,);
+      console.log(`Direccion: ${cada_filtro.direccion}`,);
+      console.log(`Correo: ${cada_filtro.correo}`,);
+      
+
+
+        
+      
+    }
      
    } catch (error) {
      return {
@@ -517,7 +566,7 @@ async function menuFiltros() {
   let opcion = 0;
 
   while (opcion != 6) {
-    console.log("\n Filtros Busqueda");
+    console.log("\n Filtros Busqueda Mongo Atlas");
     console.log("1. Busqueda por nombre");
     console.log("2. Busqueda por apellidos");
     console.log("3. Busqueda por telefono");
